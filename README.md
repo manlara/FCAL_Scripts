@@ -28,7 +28,7 @@ This script requires the following files:
 
 * A BURT file of each channels high-voltage used in the gain calibration
   * At the top of the BURT file is some header information, see headerBURT.txt
-  * The BURT file contains the EPICS name of each channel, an enable channel flag, and the high-voltage, i.e, FCAL:hv:x:y:v0set 1 hv)
+  * The BURT file contains the EPICS name of each channel, an enable channel flag, and the high-voltage, i.e, FCAL:hv:X:Y:v0set 1 hv)
 * A file of gain constants tab separated by x, y and the gain, i.e, x y gain. 
 
 Lines 47, and 48 of the Perl script define the required file names. Change these as needed.
