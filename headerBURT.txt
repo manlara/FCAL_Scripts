@@ -1,0 +1,11 @@
+--- Start BURT header
+Time:     {datetime}Tue Nov 25 09:27:34 2014
+Login ID: {user}manlara (Manuel Lara)
+Eff  UID: 8178
+Group ID: 765
+Keywords: 
+Comments: 
+Type:     Absolute
+Directory /gluonfs1/gluex/controls/epics/R3-14-12-3-1/app/scripts/VoltageBURT
+Req File: REQS//fcal_hv_all.req
+--- End BURT header

@@ -1,0 +1,12 @@
+[client]
+host     = halldweb1
+hostname = halldweb1
+database = SP_JInventory or JInventory
+user     = username
+password = password
+user_n   = username
+pass     = password
+
+ [perl]
+user     = username
+password = password
