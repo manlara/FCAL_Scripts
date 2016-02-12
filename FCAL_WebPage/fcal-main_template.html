@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+% sub  trim { my $s = shift; $s =~ s/^\s+|\s+$//g; return $s };
+% sub  rmParentheses { my $s = shift; $s =~ s/(\)|\()//g; return $s };
+% sub  createHash {my %hash; foreach (@_){my @key_val=split('=>',trim($_)); $hash{trim($key_val[0])} = trim($key_val[1]);}; return %hash };
+% my $title = $_[0];
+% my $header = $_[1];
+% my @edges = split(',',trim(rmParentheses($_[2])));
+% my @cell_children_arr = split(';',trim($_[3]));
+% my %cell_children = createHash(@cell_children_arr);
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= $title %></title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="author" href="humans.txt">
+</head>
+<body>
+    <div class="container">
+        <h1 class="header"><%= $header %></h1>
+        <div class="legend">
+            <h2>Legend:</h2>
+            <table>
+                
+                <tr>
+                    <td class="emptycell red"></td>
+                    <td>&nbsp;- This cell is missing a base or pmt</td>
+                </tr>
+                
+                <tr>
+                    <td class="emptycell yellow"></td>
+                    <td style="">&nbsp;- This base is missing boards</td>
+                </tr>
+                
+                <tr>
+                    <td class="emptycell green"></td>
+                    <td>&nbsp;- Good cell. This cell contains a pmt, a base, and all associated boards</td>
+                </tr>
+                
+                <tr>
+                    <td class="emptycell blue"></td>
+                    <td style="">&nbsp;- The Comm Board is missing a Can id</td>
+                </tr>
+                <tr>
+                    <td class="emptycell pink"></td>
+                    <td style="">&nbsp;- Some boards are missing their id</td>
+                </tr>
+                <tr>
+                    <td class="emptycell black"></td>
+                    <td>&nbsp;- Too many boards associated with this base</td>
+                </tr>
+                
+            </table>
+        </div>
+        <table class="fcal">
+            % for my $row (0..58) { 
+            <tr>
+                % for my $col (-29..29) { 
+                    % if (abs($row-29)<=1 and abs($col)<=1){
+                        <td class="emptycell"></td>
+                    % }
+                    % elsif ($col>=-1*$edges[$row] and $col<=$edges[$row]){
+                        % my $x = $col; my $y = 29-$row;
+                        % my $longx = "$x"; my $longy = "$y";
+                        % if (abs($x)<10 and $x>=0){ $longx = "0"."$x";}
+                        % elsif (abs($x)<10 and $x<0){ my $tx = abs($x); $longx = "-0"."$tx";}
+                        % if (abs($y)<10 and $y>=0){ $longy = "0"."$y";}
+                        % elsif (abs($y)<10 and $y<0){ my $ty = abs($y); $longy = "-0"."$ty";}
+                        % my $cellname = "FCAL_"."$longx"."_"."$longy";
+                        % my $error_level = "";
+                        % if (exists $cell_children{"($x,$y)"}){ $error_level = $cell_children{"($x,$y)"};}
+                        % my $error_color = "";
+                        % if ($error_level==0) {$error_color = "red";}
+                        % if ($error_level==1) {$error_color = "yellow";}
+                        % if ($error_level==2) {$error_color = "green";}
+                        % if ($error_level==3) {$error_color = "blue";}
+                        % if ($error_level==4) {$error_color = "pink";}
+                        % if ($error_level==5) {$error_color = "black";}
+                        <td class="fcalcell <%= $error_color %>">
+                            <a target="_blank" href="https://halldweb1.jlab.org/JInventory/htdocs/tag2list.php?Tag=<%=$cellname%>">
+                                <span class="cell-coordinate">(<%=$x%>,<%=$y%>)</span>
+                            </a>
+                        </td>
+                    % }
+                    % else{
+                        <td class="emptycell"></td>
+                    % }
+                % }
+            % }
+            </tr>
+        </table>
+        <h1 class="header" style="margin-top:30px;">&nbsp;</h1>
+    </div>
+</body>
+</html>
